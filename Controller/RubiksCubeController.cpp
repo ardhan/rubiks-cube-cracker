@@ -3,43 +3,27 @@
 namespace busybin
 {
   /**
-   * Initialize.
+   * Main controller.  Sets up the Word, Views, and commands.
    */
-  RubiksCubeController::RubiksCubeController()
+  void RubiksCubeController::run()
   {
-  }
-
-  /**
-   * Main game loop.
-   */
-  void RubiksCubeController::start()
-  {
-    RubiksCube     cube;
-    RubiksCubeView cubeView;
-    MoveStore      moveStore(cube);
-    Scrambler      scrambler(cube, moveStore, cubeView);
-    CubeSearcher   searcher(cube);
-    vector<string> moves;
-    Goal1          goal1;
-    Goal2          goal2;
-
-    // Let the user scramble the cube.
-    scrambler.manualScramble();
-
-    // Try to achieve the goals.
-    searcher.find(goal1, moves);
-    searcher.find(goal2, moves);
-
-    // Print the moves.
-    for (string move : moves)
-      cout << move << ' ';
-    cout << endl;
-
-    for (string move : moves)
+    try
     {
-      cout << move << endl;
-      moveStore.getMoveFunc(move)();
-      cubeView.render(cube);
+      // Pass width and height for windowed-mode.
+      WorldWindow     worldWnd("OpenGL Seed");
+      RubiksCubeWorld world(unique_ptr<Program>(new RubiksCubeProgram()));
+      ViewManager     viewMan(&world, &worldWnd);
+      Mover           Mover(&world, &worldWnd);
+      Looker          Looker(&world, &worldWnd);
+      Renderer        renderer(&world, &worldWnd);
+
+      // All wired up, run the main loop.
+      worldWnd.run();
+    }
+    catch (const exception& ex)
+    {
+      cout << "Exception encountered." << endl;
+      cout << ex.what() << endl;
     }
   }
 }
