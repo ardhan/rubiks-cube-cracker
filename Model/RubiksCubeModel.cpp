@@ -594,5 +594,79 @@ namespace busybin
   {
     return this->z().z();
   }
+
+  /**
+   * Scramble the cube.
+   * @param numMoves How many moves to use in the scramble.
+   */
+  RubiksCubeModel& RubiksCubeModel::scramble(unsigned numMoves)
+  {
+    Random rand(0, 17);
+
+    for (unsigned i = 0; i < numMoves; ++i)
+    {
+      unsigned moveNum = rand.next();
+
+      switch (moveNum)
+      {
+        case 0:
+          this->u();
+          break;
+        case 1:
+          this->uPrime();
+          break;
+        case 2:
+          this->u2();
+          break;
+        case 3:
+          this->l();
+          break;
+        case 4:
+          this->lPrime();
+          break;
+        case 5:
+          this->l2();
+          break;
+        case 6:
+          this->f();
+          break;
+        case 7:
+          this->fPrime();
+          break;
+        case 8:
+          this->f2();
+          break;
+        case 9:
+          this->r();
+          break;
+        case 10:
+          this->rPrime();
+          break;
+        case 11:
+          this->r2();
+          break;
+        case 12:
+          this->b();
+          break;
+        case 13:
+          this->bPrime();
+          break;
+        case 14:
+          this->b2();
+          break;
+        case 15:
+          this->d();
+          break;
+        case 16:
+          this->dPrime();
+          break;
+        case 17:
+          this->d2();
+          break;
+      }
+    }
+
+    return *this;
+  }
 }
 

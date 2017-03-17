@@ -3,23 +3,25 @@
 namespace busybin
 {
   /**
-   * Main controller.  Sets up the Word, Views, and commands.
+   * Main controller.
    */
   void RubiksCubeController::run()
   {
     try
     {
-      // Pass width and height for windowed-mode.
-      WorldWindow     worldWnd("Rubik's Cube", 1024, 768);
-      RubiksCubeWorld world(unique_ptr<Program>(new RubiksCubeProgram()));
-      ViewManager     viewMan(&world,    &worldWnd);
-      Renderer        renderer(&world,   &worldWnd);
-      CubeMover       cubeMover(&world,  &worldWnd);
-      CubeSolver      cubeSolver(&world, &worldWnd, &cubeMover);
-      CubeDumper      cubeDumper(&world, &worldWnd);
+      RubiksCubeWriter writer("training.dat");
+      unsigned         iteration = 0;
 
-      // All wired up, run the main loop.
-      worldWnd.run();
+      while (iteration++ < 1000)
+      {
+        RubiksCubeModel  cube;
+        CubeSolver       solver(cube, writer);
+
+        cout << "\n\nStarting iteration: " << iteration << "\n\n" << endl;
+
+        cube.scramble(100);
+        solver.solveCube();
+      }
     }
     catch (const exception& ex)
     {

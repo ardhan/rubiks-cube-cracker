@@ -1,2 +1,1 @@
-Try to solve the cube outright, then bail at depth 10.
-
+Maybe make a CubeScrambler.  At any rate, the CubeTwistStore class has all the twists, so that should probably be used to scramble the cube.

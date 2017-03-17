@@ -1,13 +1,9 @@
 #ifndef _BUSYBIN_RUBIKS_CUBE_CONTROLLER_H_
 #define _BUSYBIN_RUBIKS_CUBE_CONTROLLER_H_
 
-#include "Command/CubeMover.h"
-#include "Command/CubeSolver.h"
-#include "Command/CubeDumper.h"
-#include "../OpenGLSeed/View/WorldWindow.h"
-#include "../OpenGLSeed/Controller/Command/ViewManager.h"
-#include "../OpenGLSeed/Controller/Command/Renderer.h"
-#include "../Model/RubiksCubeWorld.h"
+#include "../Model/RubiksCubeModel.h"
+#include "../View/RubiksCubeWriter.h"
+#include "CubeSolver.h"
 #include <iostream>
 using std::cout;
 using std::endl;

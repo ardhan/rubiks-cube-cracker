@@ -1,7 +1,7 @@
 #ifndef _BUSYBIN_RUBIKS_CUBE_MODEL_H_
 #define _BUSYBIN_RUBIKS_CUBE_MODEL_H_
 
-#include "../Util/RubiksCubeException.h"
+#include "../Util/Random.h"
 #include <array>
 using std::array;
 #include <algorithm>
@@ -151,6 +151,9 @@ namespace busybin
     RubiksCubeModel& z();
     RubiksCubeModel& zPrime();
     RubiksCubeModel& z2();
+
+    // Helper to scrample the cube.
+    RubiksCubeModel& scramble(unsigned numMoves);
   };
 }
 
