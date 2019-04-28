@@ -7,25 +7,11 @@ namespace busybin
    */
   uint32_t EdgeG1PatternDatabase::getDatabaseIndex(const RubiksCubeModel& cube) const
   {
-    // UB RY 0.
-    edge_t ub =
-    {
-      cube.get(F::UP,   0, 1),
-      cube.get(F::BACK, 0, 1)
-    };
-
     // UR RG 1.
     edge_t ur =
     {
       cube.get(F::UP,    1, 2),
       cube.get(F::RIGHT, 0, 1)
-    };
-
-    // UF RW 2.
-    edge_t uf =
-    {
-      cube.get(F::UP,    2, 1),
-      cube.get(F::FRONT, 0, 1)
     };
 
     // UL RB 3.
@@ -35,13 +21,6 @@ namespace busybin
       cube.get(F::LEFT, 0, 1)
     };
 
-    // FR WG 4.
-    edge_t fr =
-    {
-      cube.get(F::FRONT, 1, 2),
-      cube.get(F::RIGHT, 1, 0)
-    };
-
     // FL WB 5.
     edge_t fl =
     {
@@ -49,25 +28,46 @@ namespace busybin
       cube.get(F::LEFT,  1, 2)
     };
 
+    // BR YG 7.
+    edge_t br =
+    {
+      cube.get(F::BACK,  1, 0),
+      cube.get(F::RIGHT, 1, 2)
+    };
+
+    // DF OW 8.
+    edge_t df =
+    {
+      cube.get(F::DOWN,  0, 1),
+      cube.get(F::FRONT, 2, 1)
+    };
+
+    // DB OY 10.
+    edge_t db =
+    {
+      cube.get(F::DOWN, 2, 1),
+      cube.get(F::BACK, 2, 1)
+    };
+
     perm_t edgePerm =
     {
-      this->getCubieIndex(ub),
       this->getCubieIndex(ur),
-      this->getCubieIndex(uf),
       this->getCubieIndex(ul),
-      this->getCubieIndex(fr),
-      this->getCubieIndex(fl)
+      this->getCubieIndex(fl),
+      this->getCubieIndex(br),
+      this->getCubieIndex(df),
+      this->getCubieIndex(db)
     };
 
     // Now get the orientation of each edge.
     array<uchar, 6> edgeOrientations =
     {
-      this->getCubieOrientation(ub),
       this->getCubieOrientation(ur),
-      this->getCubieOrientation(uf),
       this->getCubieOrientation(ul),
-      this->getCubieOrientation(fr),
-      this->getCubieOrientation(fl)
+      this->getCubieOrientation(fl),
+      this->getCubieOrientation(br),
+      this->getCubieOrientation(df),
+      this->getCubieOrientation(db)
     };
 
     return EdgePatternDatabase::getDatabaseIndex(edgePerm, edgeOrientations);
