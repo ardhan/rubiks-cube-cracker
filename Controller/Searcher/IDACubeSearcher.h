@@ -15,6 +15,8 @@ using std::vector;
 using std::priority_queue;
 #include <functional>
 using std::greater;
+#include <set>
+using std::set;
 #include <cstdint>
 
 namespace busybin
@@ -24,6 +26,8 @@ namespace busybin
    */
   class IDACubeSearcher : public CubeSearcher
   {
+    typedef set<RubiksCubeModel> seen_t;
+
     struct PrioritizedMove
     {
       uint8_t moveInd;
@@ -37,7 +41,10 @@ namespace busybin
     const PatternDatabase* pPatternDB;
 
     uint8_t findGoal(Goal& goal, RubiksCubeModel& cube, MoveStore& moveStore,
-      uint8_t bound, vector<string>& moves, bool& solved);
+      const uint8_t& bound, vector<string>& moves, bool& solved, seen_t& seen);
+
+    uint8_t getNextMove(uint8_t movePrio, RubiksCubeModel& cube,
+      MoveStore& moveStore, const vector<string>& moves, const seen_t& seen) const;
 
   public:
     IDACubeSearcher(const PatternDatabase* pPatternDB);
