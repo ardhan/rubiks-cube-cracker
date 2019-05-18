@@ -15,10 +15,12 @@ namespace busybin
     cornerDB(),
     edgeG1DB(),
     edgeG2DB(),
-    korfDB(&cornerDB, &edgeG1DB, &edgeG2DB),
+    exactDB(10E6),
+    korfDB(&cornerDB, &edgeG1DB, &edgeG2DB, &exactDB),
     cornerDBIndexed(false),
     edgeG1DBIndexed(false),
-    edgeG2DBIndexed(false)
+    edgeG2DBIndexed(false),
+    exactDBIndexed(false)
   {
   }
 
@@ -38,6 +40,7 @@ namespace busybin
     this->pThreadPool->addJob(bind(&KorfCubeSolver::indexCornerDatabase, this));
     this->pThreadPool->addJob(bind(&KorfCubeSolver::indexEdgeG1Database, this));
     this->pThreadPool->addJob(bind(&KorfCubeSolver::indexEdgeG2Database, this));
+    this->pThreadPool->addJob(bind(&KorfCubeSolver::indexExactDatabase, this));
   }
 
   /**
@@ -120,12 +123,30 @@ namespace busybin
   }
 
   /**
+   * Index the "exact" database.
+   */
+  void KorfCubeSolver::indexExactDatabase()
+  {
+    IDDFSCubeSearcher    iddfsSearcher;
+    RubiksCubeIndexModel iCube;
+    ExactDatabaseGoal    exactDBGoal(&this->exactDB);
+    TwistStore           twistStore(iCube);
+
+    cout << "Goal 4: " << exactDBGoal.getDescription() << endl;
+
+    iddfsSearcher.findGoal(exactDBGoal, iCube, twistStore);
+
+    this->exactDBIndexed = true;
+    this->onIndexComplete();
+  }
+
+  /**
    * Each index thread calls this when it's complete.  When all are done,
    * the Korf database is inflated and the solving flag is toggled off.
    */
   void KorfCubeSolver::onIndexComplete()
   {
-    if (this->cornerDBIndexed && this->edgeG1DBIndexed && this->edgeG2DBIndexed)
+    if (this->cornerDBIndexed && this->edgeG1DBIndexed && this->edgeG2DBIndexed && this->exactDBIndexed)
     {
       // Inflate the DB for faster access (doubles the size, but no bit-wise
       // operations are required when indexing).

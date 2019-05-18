@@ -15,14 +15,17 @@
 #include "../../../OpenGLSeed/View/WorldWindow.h"
 #include "../../../Model/Goal/Korf/CornerDatabaseGoal.h"
 #include "../../../Model/Goal/Korf/EdgeDatabaseGoal.h"
+#include "../../../Model/Goal/Korf/ExactDatabaseGoal.h"
 #include "../../../Model/PatternDatabase/Korf/CornerPatternDatabase.h"
 #include "../../../Model/PatternDatabase/Korf/EdgeG1PatternDatabase.h"
 #include "../../../Model/PatternDatabase/Korf/EdgeG2PatternDatabase.h"
+#include "../../../Model/PatternDatabase/Korf/ExactPatternDatabase.h"
 #include "../../../Model/PatternDatabase/Korf/KorfPatternDatabase.h"
 #include "../../../Util/ThreadPool.h"
 #include "../../Searcher/BreadthFirstCubeSearcher.h"
 #include "../../Searcher/PatternDatabaseIndexer.h"
 #include "../../Searcher/IDACubeSearcher.h"
+#include "../../Searcher/IDDFSCubeSearcher.h"
 #include <iostream>
 using std::cout;
 using std::endl;
@@ -51,15 +54,18 @@ namespace busybin
     CornerPatternDatabase cornerDB;
     EdgeG1PatternDatabase edgeG1DB;
     EdgeG2PatternDatabase edgeG2DB;
+    ExactPatternDatabase  exactDB;
     KorfPatternDatabase   korfDB;
 
     atomic_bool cornerDBIndexed;
     atomic_bool edgeG1DBIndexed;
     atomic_bool edgeG2DBIndexed;
+    atomic_bool exactDBIndexed;
 
     void indexCornerDatabase();
     void indexEdgeG1Database();
     void indexEdgeG2Database();
+    void indexExactDatabase();
     void onIndexComplete();
 
   protected:
