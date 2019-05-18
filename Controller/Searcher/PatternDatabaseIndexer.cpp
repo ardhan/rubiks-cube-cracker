@@ -59,7 +59,7 @@ namespace busybin
 
           // This cube state may have been encountered at an earlier depth, at
           // which case it can be skipped.
-          uint32_t dbInd = seenDB.getDatabaseIndex(cubeCopy);
+          size_t dbInd = seenDB.getDatabaseIndex(cubeCopy);
 
           if (seenDB.getNumMoves(dbInd) >= cubeCopyDepth)
           {
