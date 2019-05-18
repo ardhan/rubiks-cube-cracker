@@ -3,18 +3,19 @@
 namespace busybin
 {
   /**
-   * Initialize the database storage, storing pointers to the three aggregate
-   * dbs.
+   * Initialize the database storage, storing pointers to the aggregate dbs.
    */
   KorfPatternDatabase::KorfPatternDatabase(
     CornerPatternDatabase* pCornerDB,
     EdgeG1PatternDatabase* pEdgeG1DB,
-    EdgeG2PatternDatabase* pEdgeG2DB) :
+    EdgeG2PatternDatabase* pEdgeG2DB,
+    ExactPatternDatabase* pExactDB) :
     PatternDatabase(0),
     inflated(false),
     pCornerDB(pCornerDB),
     pEdgeG1DB(pEdgeG1DB),
-    pEdgeG2DB(pEdgeG2DB)
+    pEdgeG2DB(pEdgeG2DB),
+    pExactDB(pExactDB)
   {
   }
 
@@ -28,6 +29,7 @@ namespace busybin
     uint8_t cornerMoves;
     uint8_t edgeG1Moves;
     uint8_t edgeG2Moves;
+    uint8_t exactMoves;
 
     if (this->inflated)
     {
@@ -42,6 +44,8 @@ namespace busybin
       edgeG2Moves = this->pEdgeG2DB->getNumMoves(cube);
     }
 
+    exactMoves = this->pExactDB->getNumMoves(cube);
+
     // This is for debugging, since a state should never return 15 moves.
     // However, this database can be used for more than just the distance to
     // the solved state, such as duplicate state detection, so this check can't
@@ -49,34 +53,35 @@ namespace busybin
     //if (cornerMoves == 0xF || edgeG1Moves == 0xF || edgeG2Moves == 0xF)
     //  throw RubiksCubeException("Fatal: Scramble not indexed in one of the databases.");
 
-    return max({cornerMoves, edgeG1Moves, edgeG2Moves});
+    return max({cornerMoves, edgeG1Moves, edgeG2Moves, exactMoves});
   }
 
   /**
-   * Set the number of moves in all three databases.  Returns true if any is
-   * changed.
+   * Set the number of moves in all databases.  Returns true if any is changed.
    */
   bool KorfPatternDatabase::setNumMoves(const RubiksCube& cube, const uint8_t numMoves)
   {
     bool corner = this->pCornerDB->setNumMoves(cube, numMoves);
     bool edgeG1 = this->pEdgeG1DB->setNumMoves(cube, numMoves);
     bool edgeG2 = this->pEdgeG2DB->setNumMoves(cube, numMoves);
+    bool exact  = this->pExactDB->setNumMoves(cube, numMoves);
 
-    return corner || edgeG1 || edgeG2;
+    return corner || edgeG1 || edgeG2 || exact;
   }
 
   /**
-   * Returns true if all three databases are full.
+   * Returns true if all databases are full.
    */
   bool KorfPatternDatabase::isFull() const
   {
     return this->pCornerDB->isFull() &&
            this->pEdgeG1DB->isFull() &&
-           this->pEdgeG2DB->isFull();
+           this->pEdgeG2DB->isFull() &&
+           this->pExactDB->isFull();
   }
 
   /**
-   * Inflate all three databases for faster access.
+   * Inflate all databases for faster access.
    */
   void KorfPatternDatabase::inflate()
   {
@@ -88,7 +93,7 @@ namespace busybin
   }
 
   /**
-   * Reset all three databases.
+   * Reset all databases.
    */
   void KorfPatternDatabase::reset()
   {
@@ -97,19 +102,20 @@ namespace busybin
     this->pCornerDB->reset();
     this->pEdgeG1DB->reset();
     this->pEdgeG2DB->reset();
+    this->pExactDB->reset();
   }
 
-  uint32_t KorfPatternDatabase::getDatabaseIndex(const RubiksCube& cube) const
+  size_t KorfPatternDatabase::getDatabaseIndex(const RubiksCube& cube) const
   {
     throw RubiksCubeException("KorfPatternDatabase::getDatabaseIndex not implemented.");
   }
 
-  bool KorfPatternDatabase::setNumMoves(const uint32_t ind, const uint8_t numMoves)
+  bool KorfPatternDatabase::setNumMoves(const size_t ind, const uint8_t numMoves)
   {
     throw RubiksCubeException("KorfPatternDatabase::setNumMoves not implemented.");
   }
 
-  uint8_t KorfPatternDatabase::getNumMoves(const uint32_t ind) const
+  uint8_t KorfPatternDatabase::getNumMoves(const size_t ind) const
   {
     throw RubiksCubeException("KorfPatternDatabase::getNumMoves not implemented.");
   }

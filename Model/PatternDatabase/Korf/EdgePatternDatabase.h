@@ -20,11 +20,11 @@ namespace busybin
 
     static array<uint8_t, 4096> onesCountLookup;
 
-    uint32_t getDatabaseIndex(const perm_t& edgePerm,
+    size_t getDatabaseIndex(const perm_t& edgePerm,
       const array<uint8_t, 7>& edgeOrientations) const;
   public:
     EdgePatternDatabase();
-    virtual uint32_t getDatabaseIndex(const RubiksCube& cube) const = 0;
+    virtual size_t getDatabaseIndex(const RubiksCube& cube) const = 0;
   };
 }
 

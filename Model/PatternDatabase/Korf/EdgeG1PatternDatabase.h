@@ -16,7 +16,7 @@ namespace busybin
   class EdgeG1PatternDatabase : public EdgePatternDatabase
   {
   public:
-    uint32_t getDatabaseIndex(const RubiksCube& cube) const;
+    size_t getDatabaseIndex(const RubiksCube& cube) const;
   };
 }
 

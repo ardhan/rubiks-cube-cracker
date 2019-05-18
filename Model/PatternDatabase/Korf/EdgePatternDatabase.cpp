@@ -29,7 +29,7 @@ namespace busybin
    * @param edgeOrientations An array of edge orientations, numbered 0-1 (each
    * edge can be in one of two orientations).
    */
-  uint32_t EdgePatternDatabase::getDatabaseIndex(const perm_t& edgePerm,
+  size_t EdgePatternDatabase::getDatabaseIndex(const perm_t& edgePerm,
     const array<uint8_t, 7>& edgeOrientations) const
   {
     // See CornerPatternDatabase.cpp for an explanation.  Get the Lehmer code
@@ -55,7 +55,7 @@ namespace busybin
     // is 12!/(12-7)! = 3,991,680.  Each digit in the Lehmer code is thus
     // multipled by the number of partial permutations that preceed it:
     // l_0 * 11P6 + l_1 + 10P5 + l_2 * 9P4 + l_3 * 8P3 + l_4 * 7P2 + l_5 * 6P1 + l_6 * 7P0.
-    uint32_t index =
+    size_t index =
       lehmer[0] * 332640 +
       lehmer[1] * 30240 +
       lehmer[2] * 3024 +
@@ -66,7 +66,7 @@ namespace busybin
 
     // Treat the orientations as a base-2 number, and convert it
     // to base-10.
-    uint32_t orientationNum =
+    size_t orientationNum =
       edgeOrientations[0] * 64 +
       edgeOrientations[1] * 32 +
       edgeOrientations[2] * 16 +

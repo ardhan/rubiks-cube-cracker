@@ -23,7 +23,7 @@ namespace busybin
 
   public:
     CornerPatternDatabase();
-    uint32_t getDatabaseIndex(const RubiksCube& cube) const;
+    size_t getDatabaseIndex(const RubiksCube& cube) const;
   };
 }
 

@@ -4,6 +4,7 @@
 #include "CornerPatternDatabase.h"
 #include "EdgeG1PatternDatabase.h"
 #include "EdgeG2PatternDatabase.h"
+#include "ExactPatternDatabase.h"
 #include "../../RubiksCube.h"
 #include "../PatternDatabase.h"
 #include "../../../Util/RubiksCubeException.h"
@@ -28,6 +29,7 @@ namespace busybin
     CornerPatternDatabase* pCornerDB;
     EdgeG1PatternDatabase* pEdgeG1DB;
     EdgeG2PatternDatabase* pEdgeG2DB;
+    ExactPatternDatabase*  pExactDB;
 
     vector<uint8_t> cornerDBInflated;
     vector<uint8_t> edgeG1DBInflated;
@@ -37,7 +39,8 @@ namespace busybin
     KorfPatternDatabase(
       CornerPatternDatabase* pCornerDB,
       EdgeG1PatternDatabase* pEdgeG1DB,
-      EdgeG2PatternDatabase* pEdgeG2DB);
+      EdgeG2PatternDatabase* pEdgeG2DB,
+      ExactPatternDatabase* pExactDB);
 
     uint8_t getNumMoves(const RubiksCube& cube) const;
     bool setNumMoves(const RubiksCube& cube, const uint8_t numMoves);
@@ -46,9 +49,9 @@ namespace busybin
     void reset();
 
     // All unimplemented.
-    uint32_t getDatabaseIndex(const RubiksCube& cube) const;
-    bool setNumMoves(const uint32_t ind, const uint8_t numMoves);
-    uint8_t getNumMoves(const uint32_t ind) const;
+    size_t getDatabaseIndex(const RubiksCube& cube) const;
+    bool setNumMoves(const size_t ind, const uint8_t numMoves);
+    uint8_t getNumMoves(const size_t ind) const;
     size_t getSize() const;
     size_t getNumItems() const;
     void toFile(const string& filePath) const;

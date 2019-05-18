@@ -5,7 +5,7 @@ namespace busybin
   /**
    * Given a cube, get an index into the pattern database.
    */
-  uint32_t EdgeG1PatternDatabase::getDatabaseIndex(const RubiksCube& cube) const
+  size_t EdgeG1PatternDatabase::getDatabaseIndex(const RubiksCube& cube) const
   {
     typedef RubiksCubeIndexModel::EDGE EDGE;
 

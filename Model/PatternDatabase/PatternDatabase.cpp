@@ -19,7 +19,7 @@ namespace busybin
    * @param numMoves The number of moves to get to this state (must be fewer
    * than 15).
    */
-  bool PatternDatabase::setNumMoves(const uint32_t ind, const uint8_t numMoves) 
+  bool PatternDatabase::setNumMoves(const size_t ind, const uint8_t numMoves) 
   {
     uint8_t oldNumMoves = this->getNumMoves(ind);
 
@@ -53,7 +53,7 @@ namespace busybin
    * method.  0xF (15) indicates that the state has not been set.
    * @param cube A cube instance.
    */
-  uint8_t PatternDatabase::getNumMoves(const uint32_t ind) const
+  uint8_t PatternDatabase::getNumMoves(const size_t ind) const
   {
     return this->database.get(ind);
   }

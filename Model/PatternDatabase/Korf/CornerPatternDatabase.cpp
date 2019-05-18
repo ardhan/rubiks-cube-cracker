@@ -25,7 +25,7 @@ namespace busybin
   /**
    * Given a cube, get an index into the pattern database.
    */
-  uint32_t CornerPatternDatabase::getDatabaseIndex(const RubiksCube& cube) const
+  size_t CornerPatternDatabase::getDatabaseIndex(const RubiksCube& cube) const
   {
     typedef RubiksCubeIndexModel::CORNER CORNER;
 
@@ -82,7 +82,7 @@ namespace busybin
     // multiply each digit by it's corresponding factorial base.
     // E.g. the permutation 120 has a Lehmer code of 110, which is
     // 1 * 2! + 1 * 1! + 0 * 0! = 3.
-    uint32_t index =
+    size_t index =
       lehmer[0] * 5040 +
       lehmer[1] * 720 +
       lehmer[2] * 120 +
@@ -106,7 +106,7 @@ namespace busybin
 
     // Treat the orientations as a base-3 number, and convert it
     // to base-10.
-    uint32_t orientationNum =
+    size_t orientationNum =
       cornerOrientations[0] * 729 +
       cornerOrientations[1] * 243 +
       cornerOrientations[2] * 81 +
